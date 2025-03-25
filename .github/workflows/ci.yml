@@ -20,3 +20,24 @@ jobs:
         run: npm install
       - name: Build project
         run: npm run build
+
+      - name: Create Pull Request
+        if: success() && github.ref == 'refs/heads/dev'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: 'dev',
+                base: 'main',
+                title: 'Create Pull Request from dev to main',
+                body: 'Automatically creating a pull request from dev to main after a successful build',
+              });
+
+              console.log("Pull request created successfully");
+
+            } catch (error) {
+              console.error("Error creating pull request:", error);
+            }
