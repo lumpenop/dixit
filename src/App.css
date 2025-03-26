@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -110,11 +110,38 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+.text-thin {
+  @apply font-thin;
+}
+
+.text-extralight {
+  @apply font-extralight;
+}
+
+.text-light {
+  @apply font-light;
+}
+
+.text-normal {
+  @apply font-normal;
+}
+
+.text-medium {
+  @apply font-medium;
+}
+
+.text-semibold {
+  @apply font-semibold;
+}
+
+.text-bold {
+  @apply font-bold;
+}
+
+.text-extrabold {
+  @apply font-extrabold;
+}
+
+.text-black {
+  @apply font-black;
 }
