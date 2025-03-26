@@ -25,8 +25,10 @@ export function ScoreTable() {
         padding: '16px',
       },
     })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxScore])
+
   return (
     <div className="overflow-x-auto">
       <Toaster toastOptions={{ position: 'top-center' }} />
@@ -39,6 +41,7 @@ export function ScoreTable() {
                 Round {i + 1}
               </TableHead>
             ))}
+            <TableHead className="text-center">Some</TableHead>
             <TableHead className="text-center">Total</TableHead>
           </TableRow>
         </TableHeader>

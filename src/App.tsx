@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScoreTable } from '@/components/ScoreTable'
 import { GameRules } from '@/components/GameRules'
 import useTableStore from './store/store'
+import CardFooterButtons from './components/CardFooterButtons'
 
-export default function DixitScoreTracker() {
-  const { players, addRound } = useTableStore()
+const DixitScoreTracker = () => {
+  const { players, maxScore } = useTableStore()
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -20,8 +20,9 @@ export default function DixitScoreTracker() {
             <div className="text-center py-8 text-muted-foreground">Loading players...</div>
           )}
         </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button onClick={addRound}>라운드 추가</Button>
+
+        <CardFooter className="flex justify-center gap-2">
+          <CardFooterButtons maxScore={maxScore} />
         </CardFooter>
       </Card>
 
@@ -29,3 +30,5 @@ export default function DixitScoreTracker() {
     </div>
   )
 }
+
+export default DixitScoreTracker
