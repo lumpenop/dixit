@@ -1,12 +1,12 @@
-import React from 'react'
-import { Check, Edit2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+// import React from 'react'
+// import { Check, Edit2 } from 'lucide-react'
+// import { Button } from '@/components/ui/button'
+// import { Input } from '@/components/ui/input'
 
 const EditInput = () => {
   return (
     <>
-      {player.isEditing ? (
+      {/* {player.isEditing ? (
         <div className="flex items-center gap-1">
           <Input
             value={player.name}
@@ -32,7 +32,9 @@ const EditInput = () => {
             <Edit2 className="h-3 w-3" />
           </Button>
         </div>
-      )}
+      )} */}
     </>
   )
 }
+
+export default EditInput
