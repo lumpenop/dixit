@@ -25,8 +25,10 @@ export function ScoreTable() {
         padding: '16px',
       },
     })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxScore])
+
   return (
     <div className="overflow-x-auto">
       <Toaster toastOptions={{ position: 'top-center' }} />

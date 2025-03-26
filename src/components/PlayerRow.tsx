@@ -46,7 +46,7 @@ export function PlayerRow({ player, isWinner }: PlayerRowProps) {
           </TableCell>
         ))}
         <TableCell className="text-center">
-          {player.id !== storyTeller.id && <Button onClick={handleSomeButton}>+3</Button>}
+          <Button onClick={handleSomeButton}>+3</Button>
         </TableCell>
 
         <TableCell className="text-center font-bold">{player.total}</TableCell>

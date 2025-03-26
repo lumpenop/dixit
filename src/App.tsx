@@ -5,7 +5,7 @@ import { GameRules } from '@/components/GameRules'
 import useTableStore from './store/store'
 
 export default function DixitScoreTracker() {
-  const { players, addRound, setAll, setStoryTeller, storyTeller } = useTableStore()
+  const { players, addRound, setAll, setStoryTeller, storyTeller, maxScore, setReset } = useTableStore()
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -22,9 +22,14 @@ export default function DixitScoreTracker() {
         </CardContent>
 
         <CardFooter className="flex justify-center gap-2">
-          <Button onClick={setAll}>All</Button>
-          <Button onClick={setStoryTeller}>다음 이야기</Button>
-          {storyTeller.id === 4 && <Button onClick={addRound}>라운드 추가</Button>}
+          {maxScore >= 30 && <Button onClick={setReset}>다시 하기</Button>}
+          {maxScore < 30 && (
+            <>
+              <Button onClick={setAll}>All</Button>
+              <Button onClick={setStoryTeller}>다음 이야기</Button>
+              {storyTeller.id === 4 && <Button onClick={addRound}>라운드 추가</Button>}
+            </>
+          )}
         </CardFooter>
       </Card>
 

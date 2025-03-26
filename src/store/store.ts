@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Player, players } from '@/config/player'
+import { Player, initialPlayers } from '@/config/player'
 
 const calculateTotalScore = (player: Player) => {
   return player.scores.reduce((sum, score) => sum + score, 0)
@@ -13,6 +13,7 @@ interface TableStore {
   maxScore: number
 
   setAll: () => void
+  setReset: () => void
   setScorePlus3: (playerId: number) => void
   setWinnerIds: () => void
   setStoryTeller: () => void
@@ -23,11 +24,13 @@ interface TableStore {
 }
 
 const useTableStore = create<TableStore>()(set => ({
-  players: players,
+  players: initialPlayers,
   currentRound: 1,
-  storyTeller: players[0],
+  storyTeller: initialPlayers[0],
   winnerIds: null,
   maxScore: 0,
+
+  setReset: () => set({ players: initialPlayers }),
 
   setScorePlus3: (playerId: number) =>
     set(state => ({
@@ -107,7 +110,7 @@ const useTableStore = create<TableStore>()(set => ({
         ...player,
         scores: [...player.scores, 0],
       })),
-      storyTeller: players[0],
+      storyTeller: initialPlayers[0],
     })),
 
   toggleEditName: (playerId: number) =>
