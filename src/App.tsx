@@ -5,7 +5,7 @@ import { GameRules } from '@/components/GameRules'
 import useTableStore from './store/store'
 
 export default function DixitScoreTracker() {
-  const { players, addRound } = useTableStore()
+  const { players, addRound, setAll, setStoryTeller, storyTeller } = useTableStore()
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -20,8 +20,11 @@ export default function DixitScoreTracker() {
             <div className="text-center py-8 text-muted-foreground">Loading players...</div>
           )}
         </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button onClick={addRound}>라운드 추가</Button>
+
+        <CardFooter className="flex justify-center gap-2">
+          <Button onClick={setAll}>All</Button>
+          <Button onClick={setStoryTeller}>다음 이야기</Button>
+          {storyTeller.id === 4 && <Button onClick={addRound}>라운드 추가</Button>}
         </CardFooter>
       </Card>
 

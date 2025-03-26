@@ -12,8 +12,10 @@ interface TableStore {
   winnerIds: number[] | null
   maxScore: number
 
+  setAll: () => void
+  setScorePlus3: (playerId: number) => void
   setWinnerIds: () => void
-  setStoryTeller: (playerId: number) => void
+  setStoryTeller: () => void
   updateScore: (playerId: number, round: number, score: number) => void
   addRound: () => void
   toggleEditName: (playerId: number) => void
@@ -26,6 +28,42 @@ const useTableStore = create<TableStore>()(set => ({
   storyTeller: players[0],
   winnerIds: null,
   maxScore: 0,
+
+  setScorePlus3: (playerId: number) =>
+    set(state => ({
+      players: state.players.map(player => {
+        if (player.id === playerId) {
+          const scores = [...player.scores]
+          scores[state.currentRound - 1] = scores[state.currentRound - 1] + 3
+
+          return {
+            ...player,
+            scores,
+            total: player.total + 3,
+          }
+        }
+
+        return player
+      }),
+    })),
+
+  setAll: () =>
+    set(state => {
+      return {
+        players: state.players.map(player => {
+          if (player.id === state.storyTeller.id) return player
+
+          const scores = [...player.scores]
+          scores[state.currentRound - 1] = scores[state.currentRound - 1] + 2
+
+          return {
+            ...player,
+            scores,
+            total: player.total + 2,
+          }
+        }),
+      }
+    }),
 
   setWinnerIds: () =>
     set(state => {
@@ -41,9 +79,9 @@ const useTableStore = create<TableStore>()(set => ({
       }
     }),
 
-  setStoryTeller: (playerId: number) =>
+  setStoryTeller: () =>
     set(state => ({
-      storyTeller: state.players.find(player => player.id === playerId) || state.players[0],
+      storyTeller: state.storyTeller.id === 4 ? state.players[0] : state.players[state.storyTeller.id],
     })),
 
   updateScore: (playerId: number, round: number, score: number) =>
@@ -69,6 +107,7 @@ const useTableStore = create<TableStore>()(set => ({
         ...player,
         scores: [...player.scores, 0],
       })),
+      storyTeller: players[0],
     })),
 
   toggleEditName: (playerId: number) =>

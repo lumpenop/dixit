@@ -39,6 +39,7 @@ export function ScoreTable() {
                 Round {i + 1}
               </TableHead>
             ))}
+            <TableHead className="text-center">Some</TableHead>
             <TableHead className="text-center">Total</TableHead>
           </TableRow>
         </TableHeader>
