@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,17 +26,29 @@ jobs:
         with:
           script: |
             try {
-              await github.rest.pulls.create({
+              // 기존 PR이 있는지 확인
+              const existingPRs = await github.rest.pulls.list({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                head: 'dev',
-                base: 'main',
-                title: 'Create Pull Request from dev to main',
-                body: 'Automatically creating a pull request from dev to main after a successful build',
+                state: 'open',
+                head: `${context.repo.owner}:dev`,
+                base: 'main'
               });
-
-              console.log("Pull request created successfully");
-
+              
+              // 기존 PR이 없을 경우에만 새 PR 생성
+              if (existingPRs.data.length === 0) {
+                await github.rest.pulls.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  head: 'dev',
+                  base: 'main',
+                  title: 'Create Pull Request from dev to main',
+                  body: 'Automatically creating a pull request from dev to main after a successful build',
+                });
+                console.log("Pull request created successfully");
+              } else {
+                console.log("Pull request already exists, skipping creation");
+              }
             } catch (error) {
-              console.error("Error creating pull request:", error);
+              console.error("Error handling pull request:", error);
             }
