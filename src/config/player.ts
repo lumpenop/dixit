@@ -3,11 +3,12 @@ type PlayerColor = {
 }
 
 export type Player = {
-  id: string
+  id: number
   name: string
   scores: number[]
   color: PlayerColor[keyof PlayerColor] | null
   isEditing: boolean
+  total: number
 }
 
 const playerColor: PlayerColor = {
@@ -18,8 +19,8 @@ const playerColor: PlayerColor = {
 }
 
 export const players: Player[] = [
-  { id: '1', name: 'Player 1', scores: [0], color: playerColor['red'], isEditing: false },
-  { id: '2', name: 'Player 2', scores: [0], color: playerColor['blue'], isEditing: false },
-  { id: '3', name: 'Player 3', scores: [0], color: playerColor['green'], isEditing: false },
-  { id: '4', name: 'Player 4', scores: [0], color: playerColor['yellow'], isEditing: false },
+  { id: 1, name: 'Player 1', scores: [0], color: playerColor['red'], isEditing: false, total: 0 },
+  { id: 2, name: 'Player 2', scores: [0], color: playerColor['blue'], isEditing: false, total: 0 },
+  { id: 3, name: 'Player 3', scores: [0], color: playerColor['green'], isEditing: false, total: 0 },
+  { id: 4, name: 'Player 4', scores: [0], color: playerColor['yellow'], isEditing: false, total: 0 },
 ]
