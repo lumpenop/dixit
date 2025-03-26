@@ -1,5 +1,7 @@
 ## Dixit 점수 계산기
 
+배포: https://dixit-kappa.vercel.app/
+
 ### 기본 요구사항
 
 - Dixit 게임의 규칙을 그대로 적용합니다.
