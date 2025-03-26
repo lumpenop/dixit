@@ -7,14 +7,14 @@ import useTableStore from '@/store/store'
 import { toast, Toaster } from 'react-hot-toast'
 
 export function ScoreTable() {
-  const { players, currentRound, winnerIds, setWinnerIds, maxScore, goalScore } = useTableStore()
+  const { players, currentRound, winnerIds, setWinnerIds, maxScore } = useTableStore()
 
   useEffect(() => {
     setWinnerIds()
   }, [players, setWinnerIds])
 
   useEffect(() => {
-    if (maxScore < goalScore) return
+    if (maxScore < 30) return
     const winner = players.filter(player => player.total === maxScore)
     if (winner.length === 0) return
 

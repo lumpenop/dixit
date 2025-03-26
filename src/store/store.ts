@@ -19,6 +19,7 @@ interface TableStore extends TableState {
   goalScore: number
   setGoalScore: (goalScore: number) => void
   prevTableState: PrevTableState | null
+  setPlayer: (players: Player[]) => void
   setAll: () => void
   setReset: () => void
   setScorePlus3: (playerId: number) => void
@@ -41,6 +42,8 @@ const useTableStore = create<TableStore>()(set => ({
   goalScore: 30,
 
   setGoalScore: (goalScore: number) => set({ goalScore }),
+
+  setPlayer: (players: Player[]) => set({ players }),
 
   setReset: () => set({ players: initialPlayers }),
 
@@ -152,6 +155,11 @@ const useTableStore = create<TableStore>()(set => ({
 
       return {
         ...state.prevTableState,
+        players: state.prevTableState.players.map(player => ({
+          ...player,
+          total: 0,
+          scores: [0],
+        })),
         prevTableState: null,
       }
     }),
