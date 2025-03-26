@@ -5,13 +5,18 @@ const calculateTotalScore = (player: Player) => {
   return player.scores.reduce((sum, score) => sum + score, 0)
 }
 
-interface TableStore {
+interface TableState {
   players: Player[]
   currentRound: number
   storyTeller: Player
   winnerIds: number[] | null
   maxScore: number
+}
 
+type PrevTableState = TableState
+
+interface TableStore extends TableState {
+  prevTableState: PrevTableState | null
   setAll: () => void
   setReset: () => void
   setScorePlus3: (playerId: number) => void
@@ -21,6 +26,7 @@ interface TableStore {
   addRound: () => void
   toggleEditName: (playerId: number) => void
   updatePlayerName: (playerId: number, newName: string) => void
+  undo: () => void
 }
 
 const useTableStore = create<TableStore>()(set => ({
@@ -29,6 +35,7 @@ const useTableStore = create<TableStore>()(set => ({
   storyTeller: initialPlayers[0],
   winnerIds: null,
   maxScore: 0,
+  prevTableState: null,
 
   setReset: () => set({ players: initialPlayers }),
 
@@ -133,6 +140,34 @@ const useTableStore = create<TableStore>()(set => ({
         }
       }),
     })),
+
+  undo: () =>
+    set(state => {
+      if (!state.prevTableState) return state
+
+      return {
+        ...state.prevTableState,
+        prevTableState: null,
+      }
+    }),
 }))
+
+useTableStore.subscribe((state, prevState) => {
+  if (
+    JSON.stringify(prevState.players) !== JSON.stringify(state.players) ||
+    prevState.currentRound !== state.currentRound ||
+    prevState.storyTeller.id !== state.storyTeller.id
+  ) {
+    useTableStore.setState({
+      prevTableState: {
+        players: prevState.players,
+        currentRound: prevState.currentRound,
+        storyTeller: prevState.storyTeller,
+        winnerIds: prevState.winnerIds,
+        maxScore: prevState.maxScore,
+      },
+    })
+  }
+})
 
 export default useTableStore
