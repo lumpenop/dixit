@@ -12,7 +12,7 @@ const CardFooterButtons = ({ maxScore }: CardFooterButtonsProps) => {
   return (
     <>
       <Button onClick={setAll}>All</Button>
-      <Button onClick={setStoryTeller}>다음 이야기</Button>
+      {storyTeller.id !== 4 && <Button onClick={setStoryTeller}>다음 이야기</Button>}
       {storyTeller.id === 4 && <Button onClick={addRound}>라운드 추가</Button>}
     </>
   )
