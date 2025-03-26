@@ -6,10 +6,9 @@ interface CardFooterButtonsProps {
 }
 
 const CardFooterButtons = ({ maxScore }: CardFooterButtonsProps) => {
-  const { setAll, setStoryTeller, storyTeller, addRound, undo, setReset, prevTableState } = useTableStore()
-  console.log(prevTableState)
+  const { setAll, setStoryTeller, storyTeller, addRound, undo, setReset, prevTableState, goalScore } = useTableStore()
 
-  if (maxScore >= 30) return <Button onClick={setReset}>다시 하기</Button>
+  if (maxScore >= goalScore) return <Button onClick={setReset}>다시 하기</Button>
   return (
     <>
       <Button onClick={setAll}>All</Button>

@@ -16,6 +16,8 @@ interface TableState {
 type PrevTableState = TableState
 
 interface TableStore extends TableState {
+  goalScore: number
+  setGoalScore: (goalScore: number) => void
   prevTableState: PrevTableState | null
   setAll: () => void
   setReset: () => void
@@ -36,6 +38,9 @@ const useTableStore = create<TableStore>()(set => ({
   winnerIds: null,
   maxScore: 0,
   prevTableState: null,
+  goalScore: 30,
+
+  setGoalScore: (goalScore: number) => set({ goalScore }),
 
   setReset: () => set({ players: initialPlayers }),
 
