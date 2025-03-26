@@ -1,54 +1,56 @@
-# React + TypeScript + Vite
+## Dixit 점수 계산기
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 기본 요구사항
 
-Currently, two official plugins are available:
+- Dixit 게임의 규칙을 그대로 적용합니다.
+- 4명의 플레이어를 위한 점수 계산 기능을 제공합니다.
+- 모바일 환경에서도 원활하게 사용할 수 있도록 반응형 디자인을 적용합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 입력 요구사항
 
-## Expanding the ESLint configuration
+- 각 플레이어의 이름을 입력합니다.
+- 각 라운드별 점수를 입력합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 출력 요구사항
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 각 플레이어별 총점을 실시간으로 표시합니다.
+- 특정 점수(승리 조건)에 도달하면 게임 종료 알림을 표시합니다.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 게임 규칙
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+이야기꾼은 자신의 카드 중 하나에 대한 이야기를 다른 플레이어들에게 설명합니다. 다른 플레이어들은 이야기꾼이 설명한 카드라고 생각하는 카드에 투표합니다.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### 점수 계산 규칙
+
+1. **이야기꾼의 카드를 모두 맞추거나 아무도 못 맞춘 경우:** 이야기꾼을 제외한 모든 플레이어는 2점(또는 3점으로 변경 가능)을 얻습니다.
+2. **이야기꾼의 카드를 몇 명만 맞춘 경우:** 이야기꾼을 포함하여 맞춘 플레이어들은 각 3점을 얻습니다.
+3. **이야기꾼이 아닌 다른 플레이어의 카드에 다른 사람의 투표 토큰이 놓여진 경우:** 해당 카드의 주인은 투표 토큰의 개수만큼 점수를 얻습니다.
+
+## 추가 요구사항
+
+- 사용 편의성을 높이고 확장성을 고려한 기능 개선을 포함합니다.
+- 각 점수 획득 조건별 점수와 승리 조건 점수를 사용자가 자유롭게 수정할 수 있는 기능을 제공합니다.
+
+### 추가 요구사항 구현
+
+#### 1. 점수 수정 기능 (목표 점수, 받는 점수)
+
+- 게임 목표 점수를 사용자가 설정할 수 있도록 합니다.
+- 각 점수 획득 조건(1, 2, 3번 규칙)에 따른 점수를 사용자가 변경할 수 있도록 합니다.
+
+#### 2. 사용성 및 확장성 고려한 기능 개선
+
+1. **이야기꾼 표시:** 현재 이야기꾼의 이름 옆에 보라색 스마일 아이콘을 표시하여 쉽게 구분할 수 있도록 합니다.
+2. **최고 점수 및 승리 표시:** 게임 진행 중 가장 높은 점수를 얻고 있는 플레이어에게는 별도의 표시를 하고, 게임 종료 시 승리한 플레이어 옆에 우승컵 아이콘을 표시합니다.
+3. **다음 이야기 버튼:** 순서대로 이야기꾼이 1번부터 4번까지 변경될 수 있도록 "다음 이야기" 버튼을 추가했습니다.
+4. **라운드 변경 기능:** 4번 플레이어가 이야기꾼일 경우 "다음 이야기" 버튼이 "다음 라운드" 버튼으로 변경됩니다. "다음 라운드" 버튼을 클릭하면 라운드가 증가하고, 이야기꾼은 1번 플레이어로 변경됩니다.
+5. **"All" 버튼 (규칙 1 적용):** "All" 버튼을 클릭하면 이야기꾼의 카드를 모두 맞추거나 아무도 못 맞춘 경우에 해당하는 점수(이야기꾼 제외 모두 +2점)를 일괄적으로 적용합니다.
+6. **"+3" 버튼 (규칙 2 적용):** "+3" 버튼을 클릭하면 이야기꾼의 카드를 몇 명만 맞춘 경우에 해당하는 점수(맞춘 인원 모두 +3점)를 각 플레이어에게 적용할 수 있도록 합니다.
+7. **점수 추가 버튼 (규칙 3 적용):** 각 플레이어의 점수 옆에 마우스를 올리면 나타나는 화살표 버튼을 통해 다른 플레이어의 카드에 투표한 토큰 개수만큼 해당 플레이어의 점수를 +1점씩 추가할 수 있도록 합니다.
+8. **게임 종료 및 리셋:** 목표 점수에 도달한 플레이어가 있으면 승리 알림을 표시하고, "Reset" 버튼을 생성하여 클릭 시 게임을 처음부터 다시 시작할 수 있도록 합니다.
+9. **실수 방지 기능:** 실수로 점수를 잘못 입력했을 경우를 대비하여 "되돌리기" 버튼을 추가했습니다.
+
+### 추가 기능 제안
+
+1. **이전 게임 기록 보기:** 이전 게임의 점수 기록을 확인할 수 있는 페이지를 제공하여 게임 결과를 다시 볼 수 있도록 합니다.
+2. **플레이어 색상 선택:** 각 플레이어의 이름을 입력할 때 원하는 색상을 선택할 수 있는 기능을 추가하여 시각적인 편의성을 높입니다.
